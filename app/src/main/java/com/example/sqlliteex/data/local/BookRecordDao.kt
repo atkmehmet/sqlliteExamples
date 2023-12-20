@@ -10,10 +10,10 @@ interface BookRecordDao {
 @Insert
 suspend fun InsertReadBook(bookEntity: ReadBookEntity)
 @Query("SELECT * FROM ReadBook WHERE PersonId=:PersonId")
-suspend fun getBooksByPerson(PersonId:Int):Flow<List<ReadBookEntity>>
+ fun getBooksByPerson(PersonId:Int):Flow<List<ReadBookEntity>>
 
 @Query("SELECT * FROM ReadBook order by id desc")
-suspend fun getallReadBooks():Flow<List<ReadBookEntity>>
+ fun getallReadBooks():Flow<List<ReadBookEntity>>
 
 
 }

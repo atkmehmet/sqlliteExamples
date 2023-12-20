@@ -11,5 +11,6 @@ interface PersonRecordDao {
 suspend fun insertPerson(personEntity: PersonEntity)
 
 @Query("SELECT * FROM Person")
-suspend fun getAllPerson():Flow<List<PersonEntity>>
+ fun getAllPerson():Flow<List<PersonEntity>>
+
 }
