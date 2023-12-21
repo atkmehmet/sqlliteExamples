@@ -12,5 +12,7 @@ suspend fun insertPerson(personEntity: PersonEntity)
 
 @Query("SELECT * FROM Person")
  fun getAllPerson():Flow<List<PersonEntity>>
+ @Query("SELECT COUNT(*) FROM Person")
+ suspend fun getPersonCount():Int
 
 }

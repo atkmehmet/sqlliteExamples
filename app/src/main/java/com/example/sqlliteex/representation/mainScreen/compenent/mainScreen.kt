@@ -11,19 +11,16 @@ import com.example.sqlliteex.representation.mainScreen.mainScreenEvent
 import com.example.sqlliteex.representation.mainScreen.mainScreenView
 
 @Composable
-fun mainScreen(view: mainScreenView= mainScreenView()) {
+fun mainScreen(view: mainScreenView) {
 
     Column(modifier = Modifier.fillMaxSize()) {
 
 
 
-        TextField(value =view.state.personName ,
-            onValueChange ={view.onEvent(mainScreenEvent.personName(it))},
-            placeholder = {"Please name Value"} )
-
+       TextField(value = view.state.personName, onValueChange ={view.onEvent(mainScreenEvent.personName(it))}, placeholder = {"PersonName"} )
         TextField(value = view.state.personSurname, onValueChange ={view.onEvent(mainScreenEvent.personSurname(it))} )
         Button(onClick = { view.onEvent(mainScreenEvent.personCommit) }) {
-            
+            Text(text = view.state.personCount.toString())
         }
     }
 }

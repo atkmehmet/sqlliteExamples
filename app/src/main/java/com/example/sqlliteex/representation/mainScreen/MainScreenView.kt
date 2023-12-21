@@ -10,19 +10,16 @@ import com.example.sqlliteex.ApplicationContext
 import com.example.sqlliteex.data.local.BookDatabase
 import com.example.sqlliteex.data.local.PersonEntity
 import com.example.sqlliteex.data.local.PersonRecordDao
+import com.example.sqlliteex.data.local.ReadBookEntity
 import kotlinx.coroutines.launch
 
 class mainScreenView:ViewModel() {
    private var personRecordDao=BookDatabase.getPersonDao(ApplicationContext.getAppContext())
+   private var bookRecordDao=BookDatabase.getBookdao(ApplicationContext.getAppContext())
    private var _state by mutableStateOf(mainScreenSatete())
+
     val state:mainScreenSatete
         get() = _state
-    init {
-        viewModelScope.launch {
-            personRecordDao.insertPerson(PersonEntity(0,"Mehmet","Durmaz"))
-        }
-
-    }
 
     fun onEvent(event: mainScreenEvent){
         when(event){
@@ -39,6 +36,36 @@ class mainScreenView:ViewModel() {
             is mainScreenEvent.personCommit->{
                 viewModelScope.launch {
                  personRecordDao.insertPerson(PersonEntity(0,_state.personName,_state.personSurname))
+                    _state=_state.copy(
+                        personCount = personRecordDao.getPersonCount()
+                    )
+                }
+
+            }
+            is mainScreenEvent.personId->{
+                _state=_state.copy(
+                    personId = event.id
+                )
+            }
+
+            is mainScreenEvent.bookName->{
+                _state=_state.copy(
+                    bookName = event.bookName
+                )
+            }
+
+            is mainScreenEvent.bookWriter->{
+                _state=_state.copy(
+                    bookWriter = event.bookWriter
+                )
+            }
+            is mainScreenEvent.personCommit->{
+                viewModelScope.launch {
+                bookRecordDao.InsertReadBook(ReadBookEntity(0,_state.personId,_state.bookName,_state.bookWriter))
+                    _state = _state.copy(
+                        personCount=bookRecordDao.getCount()
+                    )
+
                 }
             }
         }

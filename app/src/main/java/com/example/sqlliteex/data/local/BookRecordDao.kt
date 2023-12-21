@@ -15,5 +15,8 @@ suspend fun InsertReadBook(bookEntity: ReadBookEntity)
 @Query("SELECT * FROM ReadBook order by id desc")
  fun getallReadBooks():Flow<List<ReadBookEntity>>
 
+ @Query("select count (*) from ReadBook ")
+ suspend fun getCount():Int
+
 
 }

@@ -4,5 +4,11 @@ sealed class mainScreenEvent {
     data class   personName(val name:String):mainScreenEvent()
     data class   personSurname(val surname:String):mainScreenEvent()
 
+    data class   personId(val id:Int):mainScreenEvent()
+    data class   bookName(val bookName:String):mainScreenEvent()
+    data class   bookWriter(val bookWriter:String):mainScreenEvent()
+
+
     object  personCommit:mainScreenEvent()
+    object addBook:mainScreenEvent()
 }
