@@ -15,11 +15,10 @@ fun mainScreen(view: mainScreenView) {
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-
-
-       TextField(value = view.state.personName, onValueChange ={view.onEvent(mainScreenEvent.personName(it))}, placeholder = {"PersonName"} )
-        TextField(value = view.state.personSurname, onValueChange ={view.onEvent(mainScreenEvent.personSurname(it))} )
-        Button(onClick = { view.onEvent(mainScreenEvent.personCommit) }) {
+        TextField(value = view.state.bookName, onValueChange ={view.onEvent(mainScreenEvent.bookName(it))} )
+        TextField(value = view.state.bookWriter, onValueChange ={view.onEvent(mainScreenEvent.bookWriter(it))} )
+        TextField(value = view.state.personId.toString(), onValueChange = {view.onEvent(mainScreenEvent.personId(it.toInt()))})
+        Button(onClick = { view.onEvent(mainScreenEvent.addBook) }) {
             Text(text = view.state.personCount.toString())
         }
     }

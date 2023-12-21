@@ -59,7 +59,7 @@ class mainScreenView:ViewModel() {
                     bookWriter = event.bookWriter
                 )
             }
-            is mainScreenEvent.personCommit->{
+            is mainScreenEvent.addBookgit ->{
                 viewModelScope.launch {
                 bookRecordDao.InsertReadBook(ReadBookEntity(0,_state.personId,_state.bookName,_state.bookWriter))
                     _state = _state.copy(
