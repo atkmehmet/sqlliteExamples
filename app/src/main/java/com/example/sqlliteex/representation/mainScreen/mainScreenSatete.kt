@@ -6,5 +6,7 @@ data class mainScreenSatete (
     val personCount:Int=0,
     val personId:Int=0,
     val bookName:String="",
-    val bookWriter:String=""
+    val bookWriter:String="",
+    val expanded:Boolean = false,
+    val currentValue:String="Emre"
 )

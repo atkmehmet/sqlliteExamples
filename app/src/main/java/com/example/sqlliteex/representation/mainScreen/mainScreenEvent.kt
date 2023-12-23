@@ -7,8 +7,8 @@ sealed class mainScreenEvent {
     data class   personId(val id:Int):mainScreenEvent()
     data class   bookName(val bookName:String):mainScreenEvent()
     data class   bookWriter(val bookWriter:String):mainScreenEvent()
-
-
+    data class expandedChange():mainScreenEvent()
+   data class  currentValue(val dropMenuValue:String):mainScreenEvent()
     object  personCommit:mainScreenEvent()
     object addBook:mainScreenEvent()
 }

@@ -8,37 +8,24 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.sqlliteex.representation.mainScreen.compenent.dropMenu
 import com.example.sqlliteex.representation.mainScreen.compenent.mainScreen
 import com.example.sqlliteex.representation.mainScreen.mainScreenView
 import com.example.sqlliteex.ui.theme.SqlLiteExTheme
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
 
-          //   val view:mainScreenView=mainScreenView()
+            val view:mainScreenView=mainScreenView()
             //       mainScreen(view)
-            dropMenu()
+            dropMenu(view,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SqlLiteExTheme {
-        Greeting("Android")
     }
 }
