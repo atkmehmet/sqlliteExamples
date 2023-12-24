@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
 
             val view:mainScreenView=mainScreenView()
             //       mainScreen(view)
-            dropMenu(view,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
+            dropMenu(view,view.state,view::onEvent,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
         }
     }
 }

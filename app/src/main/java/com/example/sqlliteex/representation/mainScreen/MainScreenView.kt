@@ -3,6 +3,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -26,7 +27,11 @@ class mainScreenView:ViewModel() {
    private var bookRecordDao=BookDatabase.getBookdao(ApplicationContext.getAppContext())
    private var _state by mutableStateOf(mainScreenSatete())
    private var _listPerson = MutableStateFlow(emptyFlow<List<Person>>())
+   private var _current= MutableStateFlow("")
     val lisPerson = _listPerson.asStateFlow()
+     val  current = _current.asStateFlow()
+
+
     val state:mainScreenSatete
         get() = _state
 
@@ -91,13 +96,14 @@ class mainScreenView:ViewModel() {
             }
             is mainScreenEvent.expandedChange->{
                 _state = _state.copy(
-                    expanded = !(_state.expanded)
+                    expanded = event.expanded
                 )
             }
             is mainScreenEvent.currentValue->{
                 _state = _state.copy(
                     currentValue = event.dropMenuValue
                 )
+                _current.value = event.dropMenuValue
             }
         }
     }
