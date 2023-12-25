@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.sqlliteex.representation.mainScreen.MyDropdownMenuScreen
+import com.example.sqlliteex.representation.mainScreen.MyViewModel
 import com.example.sqlliteex.representation.mainScreen.compenent.dropMenu
 import com.example.sqlliteex.representation.mainScreen.compenent.mainScreen
 import com.example.sqlliteex.representation.mainScreen.mainScreenView
@@ -24,8 +26,10 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val view:mainScreenView=mainScreenView()
+            val viewNew:MyViewModel=MyViewModel()
             //       mainScreen(view)
-            dropMenu(view,view.state,view::onEvent,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
+            MyDropdownMenuScreen(viewModel = viewNew)
+          //  dropMenu(view,view.state,view::onEvent,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
         }
     }
 }

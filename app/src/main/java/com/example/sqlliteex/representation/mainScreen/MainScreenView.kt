@@ -103,9 +103,13 @@ class mainScreenView:ViewModel() {
                 _state = _state.copy(
                     currentValue = event.dropMenuValue
                 )
-                _current.value = event.dropMenuValue
+
             }
         }
+    }
+
+    fun changeValue(value:String){
+        _current.value = value
     }
 
 }

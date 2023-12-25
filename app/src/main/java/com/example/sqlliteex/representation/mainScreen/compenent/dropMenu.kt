@@ -54,8 +54,9 @@ fun dropMenu (view: mainScreenView,
             {
                      list.forEach {
                          DropdownMenuItem(onClick = {
-                         onEvent(mainScreenEvent.currentValue(it.name))
+                        // onEvent(mainScreenEvent.currentValue(it.name))
                              expanded.value= false
+                             view.changeValue(it.name)
                          //   view.onEvent(mainScreenEvent.currentValue(it.name))
                         //     view.onEvent(mainScreenEvent.expandedChange(false))
                          }) {
