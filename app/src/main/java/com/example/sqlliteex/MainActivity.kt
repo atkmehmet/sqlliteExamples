@@ -1,5 +1,6 @@
 package com.example.sqlliteex
 
+import MyComposeScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,10 +26,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
+            //  MyComposeScreen()
             val view:mainScreenView=mainScreenView()
-            val viewNew:MyViewModel=MyViewModel()
+            val viewNew:MyViewModel= MyViewModel()
             //       mainScreen(view)
-            MyDropdownMenuScreen(viewModel = viewNew)
+           MyDropdownMenuScreen(viewModel = viewNew
+                ,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
           //  dropMenu(view,view.state,view::onEvent,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
         }
     }

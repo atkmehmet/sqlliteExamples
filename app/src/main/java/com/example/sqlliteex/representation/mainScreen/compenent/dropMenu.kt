@@ -38,6 +38,10 @@ fun dropMenu (view: mainScreenView,
     val expanded = remember{ mutableStateOf(false) }
     //val currentValue = remember{mutableStateOf("Mahmut")}
 
+    val listString: List<String> =list.map {
+        it.name+"="+it.id
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier
             .fillMaxWidth()
@@ -52,15 +56,15 @@ fun dropMenu (view: mainScreenView,
             DropdownMenu(expanded = expanded.value,
                 onDismissRequest = { expanded.value=false})
             {
-                     list.forEach {
+                     listString.forEach {
                          DropdownMenuItem(onClick = {
-                        // onEvent(mainScreenEvent.currentValue(it.name))
+                         onEvent(mainScreenEvent.currentValue(it))
                              expanded.value= false
-                             view.changeValue(it.name)
+                       //      view.changeValue(it)
                          //   view.onEvent(mainScreenEvent.currentValue(it.name))
                         //     view.onEvent(mainScreenEvent.expandedChange(false))
                          }) {
-                             Text(text = it.name)
+                             Text(text = it)
                          }
                      }
                  }
