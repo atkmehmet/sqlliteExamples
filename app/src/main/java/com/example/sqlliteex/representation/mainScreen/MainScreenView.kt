@@ -1,4 +1,5 @@
 package com.example.sqlliteex.representation.mainScreen
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
@@ -100,9 +101,11 @@ class mainScreenView:ViewModel() {
                 )
             }
             is mainScreenEvent.currentValue->{
+                Log.d("DropdownMenu",event.dropMenuValue)
                 _state = _state.copy(
                     currentValue = event.dropMenuValue
                 )
+                Log.d("DropdownMenu","value"+_state.currentValue)
 
             }
         }

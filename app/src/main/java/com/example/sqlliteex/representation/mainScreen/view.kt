@@ -9,8 +9,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class MyViewModel : ViewModel() {
+
+
+
+
+    var textValue by mutableStateOf("")
+        private set
+
+    // Function to update the text value
+    fun updateTextValue(newText: String) {
+        textValue = newText
+    }
 
 
 
@@ -23,7 +35,7 @@ class MyViewModel : ViewModel() {
     }
 
     // MutableState for the selected item
-    private val _selectedItem = MutableStateFlow("None")
+    private var _selectedItem = MutableStateFlow("")
     val selectedItem =_selectedItem.asStateFlow()
 
   //  val selectedItem by viewModel.selectedItem.collectAsState()
@@ -31,7 +43,10 @@ class MyViewModel : ViewModel() {
     // Function to update the selected item
     fun updateSelectedItem(newItem: String) {
         Log.d("DropdownMenu","view")
-        _selectedItem.value = newItem
+        _selectedItem.update {
+            newItem
+        }
+      //  _selectedItem.value = newItem
         //Log.d("DropdownMenu",newItem)
         Log.d("DropdownMenu",_selectedItem.value)
     }

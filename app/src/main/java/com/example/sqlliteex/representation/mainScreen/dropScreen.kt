@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,7 +20,7 @@ import com.example.sqlliteex.domain.model.Person
 @Composable
 fun MyDropdownMenuScreen(viewModel: MyViewModel ,list:List<Person>) {
     var expanded by remember { mutableStateOf(false) }
-    val selectedItem = viewModel.selectedItem.collectAsState()
+    var selectedItem = viewModel.selectedItem.collectAsState()
     val myState = viewModel.myMutableState
 
     val items = list.map {
@@ -28,6 +30,8 @@ fun MyDropdownMenuScreen(viewModel: MyViewModel ,list:List<Person>) {
     Column {
         // Display selected item from ViewModel
         Text("Selected Item: ${myState}")
+      //  TextField(value = selectedItem.value, onValueChange ={viewModel.updateSelectedItem(it)})
+        OutlinedTextField(value = viewModel.selectedItem.collectAsState().value, onValueChange ={viewModel.updateSelectedItem(it)} )
 
         // DropdownMenu with items
         Box {

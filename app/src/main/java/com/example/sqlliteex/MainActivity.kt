@@ -1,9 +1,10 @@
 package com.example.sqlliteex
 
-import MyComposeScreen
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -12,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.sqlliteex.representation.mainScreen.MyComposeScreen
 import com.example.sqlliteex.representation.mainScreen.MyDropdownMenuScreen
 import com.example.sqlliteex.representation.mainScreen.MyViewModel
 import com.example.sqlliteex.representation.mainScreen.compenent.dropMenu
@@ -26,11 +29,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
+       //     MyComposeScreen()
             //  MyComposeScreen()
-            val view:mainScreenView=mainScreenView()
-            val viewNew:MyViewModel= MyViewModel()
+            val view:mainScreenView= viewModel()
+            val viewNew:MyViewModel= viewModel ()
             //       mainScreen(view)
-           MyDropdownMenuScreen(viewModel = viewNew
+         MyDropdownMenuScreen(viewModel = viewNew
                 ,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
           //  dropMenu(view,view.state,view::onEvent,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
         }

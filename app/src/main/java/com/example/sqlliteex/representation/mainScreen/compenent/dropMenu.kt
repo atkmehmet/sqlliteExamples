@@ -10,6 +10,7 @@ import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
@@ -43,6 +44,7 @@ fun dropMenu (view: mainScreenView,
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
+        TextField(value = state.currentValue, onValueChange ={onEvent(mainScreenEvent.currentValue(it))} )
         Row(modifier = Modifier
             .fillMaxWidth()
             .clickable {
@@ -50,7 +52,7 @@ fun dropMenu (view: mainScreenView,
                 // view.onEvent(mainScreenEvent.expandedChange(!(view.state.expanded)))
                 expanded.value = !expanded.value
             }) {
-            Text(text = view.current.collectAsState().value)
+            Text(text = state.currentValue)
             Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = null)
             
             DropdownMenu(expanded = expanded.value,
