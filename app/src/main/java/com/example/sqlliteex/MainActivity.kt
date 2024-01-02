@@ -34,8 +34,7 @@ class MainActivity : ComponentActivity() {
             val view:mainScreenView= viewModel()
             val viewNew:MyViewModel= viewModel ()
             //       mainScreen(view)
-         MyDropdownMenuScreen(viewModel = viewNew
-                ,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
+         MyDropdownMenuScreen(view)
           //  dropMenu(view,view.state,view::onEvent,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
         }
     }

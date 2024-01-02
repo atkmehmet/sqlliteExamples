@@ -71,7 +71,7 @@ fun dropMenu (view: mainScreenView,
                      }
                  }
             }
-           Text(text = view.current.collectAsState().value)
+           Text(text = view.state.currentValue)
          Button(onClick = { onEvent(mainScreenEvent.currentValue("Mehmet")) }) {
              Text(text = "Change")
          }

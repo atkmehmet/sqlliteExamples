@@ -1,6 +1,7 @@
 package com.example.sqlliteex.representation.mainScreen
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 
 import androidx.compose.runtime.getValue
@@ -16,8 +17,10 @@ import com.example.sqlliteex.data.local.PersonRecordDao
 import com.example.sqlliteex.data.local.ReadBookEntity
 import com.example.sqlliteex.data.local.toConvertPerson
 import com.example.sqlliteex.domain.model.Person
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -27,10 +30,18 @@ class mainScreenView:ViewModel() {
    private var personRecordDao=BookDatabase.getPersonDao(ApplicationContext.getAppContext())
    private var bookRecordDao=BookDatabase.getBookdao(ApplicationContext.getAppContext())
    private var _state by mutableStateOf(mainScreenSatete())
-   private var _listPerson = MutableStateFlow(emptyFlow<List<Person>>())
-   private var _current= MutableStateFlow("")
-    val lisPerson = _listPerson.asStateFlow()
-     val  current = _current.asStateFlow()
+ //  private var _listPerson = MutableStateFlow(emptyFlow<List<Person>>())
+  val _listPerson : Flow<List<String>> =personRecordDao.getAllPerson().map {
+     it.map {
+         it.toConvertPerson()
+     }.map {
+         it.id.toString() +"="+it.name+it.surname
+
+     }
+ }
+
+
+
 
 
     val state:mainScreenSatete
@@ -38,13 +49,6 @@ class mainScreenView:ViewModel() {
 
     init {
 
-      viewModelScope.launch {
-          _listPerson.value = personRecordDao.getAllPerson().map {
-              it.map {
-                  it.toConvertPerson()
-              }
-          }
-          }
       }
 
 
@@ -109,10 +113,6 @@ class mainScreenView:ViewModel() {
 
             }
         }
-    }
-
-    fun changeValue(value:String){
-        _current.value = value
     }
 
 }

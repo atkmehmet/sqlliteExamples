@@ -15,39 +15,39 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sqlliteex.domain.model.Person
 
 @Composable
-fun MyDropdownMenuScreen(viewModel: MyViewModel ,list:List<Person>) {
-    var expanded by remember { mutableStateOf(false) }
-    var selectedItem = viewModel.selectedItem.collectAsState()
-    val myState = viewModel.myMutableState
+fun MyDropdownMenuScreen(view: mainScreenView ) {
+ //   var expanded by remember { mutableStateOf(false) }
+    //var selectedItem = viewModel.selectedItem.collectAsState()
+   // val myState = viewModel.myMutableState
+     val list = view._listPerson.collectAsState(initial = emptyList())
 
-    val items = list.map {
-        it.name+"="+it.id
-    }
+
 
     Column {
         // Display selected item from ViewModel
-        Text("Selected Item: ${myState}")
+        Text("Selected Item: ${view.state.currentValue}")
       //  TextField(value = selectedItem.value, onValueChange ={viewModel.updateSelectedItem(it)})
-        OutlinedTextField(value = viewModel.selectedItem.collectAsState().value, onValueChange ={viewModel.updateSelectedItem(it)} )
+        //OutlinedTextField(value = viewModel.selectedItem.collectAsState().value, onValueChange ={viewModel.updateSelectedItem(it)} )
 
         // DropdownMenu with items
         Box {
-            TextButton(onClick = { expanded = true }) {
-                Text("Select an item: ${myState}")
+            TextButton(onClick = { view.onEvent(mainScreenEvent.expandedChange(true)) }) {
+                Text("Select an item: ${view.state.currentValue}")
             }
 
             DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
+                expanded = view.state.expanded,
+                onDismissRequest = { view.onEvent(mainScreenEvent.expandedChange(false)) }
             ) {
-                items.forEach { itemName ->
+                list.value.forEach { itemName ->
                     DropdownMenuItem(onClick = {
                         Log.d("DropdownMenu", "Selected item: $itemName")
-                        expanded = false
-                            viewModel.updateMutableState(itemName)
+                        view.onEvent(mainScreenEvent.expandedChange(false))
+                            view.onEvent(mainScreenEvent.currentValue(itemName))
                     }) {
                         Text(itemName)
                     }
