@@ -12,11 +12,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sqlliteex.ApplicationContext
 import com.example.sqlliteex.data.local.BookDatabase
+import com.example.sqlliteex.data.local.BookRecordDao
 import com.example.sqlliteex.data.local.PersonEntity
 import com.example.sqlliteex.data.local.PersonRecordDao
 import com.example.sqlliteex.data.local.ReadBookEntity
+import com.example.sqlliteex.data.local.toConvertModel
 import com.example.sqlliteex.data.local.toConvertPerson
 import com.example.sqlliteex.domain.model.Person
+import com.example.sqlliteex.domain.model.ReadBook
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,6 +34,12 @@ class mainScreenView:ViewModel() {
    private var bookRecordDao=BookDatabase.getBookdao(ApplicationContext.getAppContext())
    private var _state by mutableStateOf(mainScreenSatete())
  //  private var _listPerson = MutableStateFlow(emptyFlow<List<Person>>())
+  val _listBook:Flow<List<ReadBook>> = bookRecordDao.getallReadBooks().map {
+      it.map {
+          it.toConvertModel()
+      }
+ }
+
   val _listPerson : Flow<List<String>> =personRecordDao.getAllPerson().map {
      it.map {
          it.toConvertPerson()
@@ -39,17 +48,9 @@ class mainScreenView:ViewModel() {
 
      }
  }
-
-
-
-
-
     val state:mainScreenSatete
         get() = _state
 
-    init {
-
-      }
 
 
     fun onEvent(event: mainScreenEvent){
@@ -92,7 +93,7 @@ class mainScreenView:ViewModel() {
             }
             is mainScreenEvent.addBook->{
                 viewModelScope.launch {
-                bookRecordDao.InsertReadBook(ReadBookEntity(0,_state.personId,_state.bookName,_state.bookWriter))
+                bookRecordDao.InsertReadBook(ReadBookEntity(0,state.currentValue,_state.bookName,_state.bookWriter))
                     _state = _state.copy(
                         personCount=bookRecordDao.getCount()
                     )

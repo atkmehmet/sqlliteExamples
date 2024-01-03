@@ -8,7 +8,7 @@ import com.example.sqlliteex.domain.model.ReadBook
 data class ReadBookEntity (
    @PrimaryKey(autoGenerate = true)
    val Id:Int,
-   val PersonId:Int,
+   val PersonId:String,
    val bookName:String,
    val bookWriter:String
 
