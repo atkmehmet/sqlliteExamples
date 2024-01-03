@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
@@ -28,23 +30,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sqlliteex.domain.model.Person
+import com.example.sqlliteex.domain.model.ReadBook
 
 @Composable
-fun MyDropdownMenuScreen(view: mainScreenView ) {
-    Column (
-    modifier = Modifier
-        .verticalScroll(rememberScrollState())
-        .padding(20.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-
-        AddPerson(view = view)
-        DropMenu(view = view)
-        AddBook(view = view)
+fun MyDropdownMenuScreen(view: mainScreenView,list:List<ReadBook> ) {
+   // val bookList by view.list.collectAsState()
 
 
-    }
+
 }
 @Composable
 fun AddBook(modifier: Modifier = Modifier,

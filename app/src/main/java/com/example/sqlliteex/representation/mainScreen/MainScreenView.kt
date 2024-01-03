@@ -22,8 +22,10 @@ import com.example.sqlliteex.domain.model.Person
 import com.example.sqlliteex.domain.model.ReadBook
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -34,11 +36,14 @@ class mainScreenView:ViewModel() {
    private var bookRecordDao=BookDatabase.getBookdao(ApplicationContext.getAppContext())
    private var _state by mutableStateOf(mainScreenSatete())
  //  private var _listPerson = MutableStateFlow(emptyFlow<List<Person>>())
-  val _listBook:Flow<List<ReadBook>> = bookRecordDao.getallReadBooks().map {
-      it.map {
-          it.toConvertModel()
-      }
- }
+
+
+    private val _listBook = MutableStateFlow<List<ReadBook>>(emptyList())
+
+    val list:StateFlow<List<ReadBook>>  = _listBook.asStateFlow()
+
+
+
 
   val _listPerson : Flow<List<String>> =personRecordDao.getAllPerson().map {
      it.map {
@@ -48,6 +53,7 @@ class mainScreenView:ViewModel() {
 
      }
  }
+
     val state:mainScreenSatete
         get() = _state
 
