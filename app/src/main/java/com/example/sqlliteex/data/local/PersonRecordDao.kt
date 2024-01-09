@@ -6,7 +6,7 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface PersonRecordDao {
+interface RecordDao {
 @Insert
 suspend fun insertPerson(personEntity: PersonEntity)
 
@@ -14,5 +14,21 @@ suspend fun insertPerson(personEntity: PersonEntity)
  fun getAllPerson():Flow<List<PersonEntity>>
  @Query("SELECT COUNT(*) FROM Person")
  suspend fun getPersonCount():Int
+
+
+ @Insert
+ suspend fun InsertReadBook(bookEntity: ReadBookEntity)
+ @Query("SELECT * FROM ReadBook WHERE PersonId=:PersonId")
+ fun getBooksByPerson(PersonId:Int):Flow<List<ReadBookEntity>>
+
+ @Query("SELECT * FROM ReadBook ")
+suspend fun getReadBooks():List<ReadBookEntity>
+
+ @Query("SELECT * FROM ReadBook ")
+ fun getallReadBooks():Flow<List<ReadBookEntity>>
+
+ @Query("select count (*) from ReadBook ")
+ suspend fun getCount():Int
+
 
 }

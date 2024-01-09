@@ -8,5 +8,6 @@ data class mainScreenSatete (
     val bookName:String="",
     val bookWriter:String="",
     val expanded:Boolean = false,
+    val error:String ="",
     val currentValue:String="Emre"
 )

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,16 +30,42 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.sqlliteex.data.local.ReadBookEntity
 import com.example.sqlliteex.domain.model.Person
 import com.example.sqlliteex.domain.model.ReadBook
+import com.example.sqlliteex.representation.mainScreen.compenent.dropMenu
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.take
 
 @Composable
-fun MyDropdownMenuScreen(view: mainScreenView,list:List<ReadBook> ) {
-   // val bookList by view.list.collectAsState()
+fun MyDropdownMenuScreen(view: mainScreenView ) {
 
 
+    // val bookList by view.list.collectAsState()
+         
+    val book = view.listBook.collectAsState(initial = emptyList())
 
-}
+         Column (modifier = Modifier
+             .fillMaxSize()
+             .verticalScroll(rememberScrollState()))
+         {
+
+
+             Text(text = view.state.personCount.toString())
+                     AddPerson(view = view)
+                     DropMenu(view = view)
+                     AddBook(view = view)
+              
+             Text(text = book.value.toString())
+   
+         }
+
+          }
+       
+    //   DropMenu(view = view)
+
+
 @Composable
 fun AddBook(modifier: Modifier = Modifier,
             view:mainScreenView)
@@ -68,9 +95,9 @@ Card(modifier = modifier) {
             shape= shapes.large,
             modifier = Modifier.fillMaxWidth(),
             onValueChange ={view.onEvent(mainScreenEvent.bookWriter(it))} )
-    }
     Button(onClick = { view.onEvent(mainScreenEvent.addBook) }) {
         Text(text = "Add Book")
+    }
     }
 
 
@@ -108,16 +135,17 @@ fun AddPerson(
                     shape= shapes.large,
                     modifier = Modifier.fillMaxWidth(),
                     onValueChange ={view.onEvent(mainScreenEvent.personSurname(it))} )
-            }
           Button(onClick = { view.onEvent(mainScreenEvent.personCommit) }) {
               Text(text = "Add Person")
           }
+            }
 
     }
 }
 @Composable
 fun DropMenu(view: mainScreenView){
-    val list = view._listPerson.collectAsState(initial = emptyList())
+     val list = view._listPerson.collectAsState(initial = emptyList())
+     // val list = listOf("Suzan","Mehmet")
     Column {
 
         // Display selected item from ViewModel
@@ -147,4 +175,5 @@ fun DropMenu(view: mainScreenView){
             }
         }
     }
+
 }

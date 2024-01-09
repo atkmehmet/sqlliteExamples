@@ -14,8 +14,9 @@ import com.example.sqlliteex.ApplicationContext
 import com.example.sqlliteex.data.local.BookDatabase
 import com.example.sqlliteex.data.local.BookRecordDao
 import com.example.sqlliteex.data.local.PersonEntity
-import com.example.sqlliteex.data.local.PersonRecordDao
+
 import com.example.sqlliteex.data.local.ReadBookEntity
+import com.example.sqlliteex.data.local.RecordDao
 import com.example.sqlliteex.data.local.toConvertModel
 import com.example.sqlliteex.data.local.toConvertPerson
 import com.example.sqlliteex.domain.model.Person
@@ -32,20 +33,33 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class mainScreenView:ViewModel() {
-   private var personRecordDao=BookDatabase.getPersonDao(ApplicationContext.getAppContext())
-   private var bookRecordDao=BookDatabase.getBookdao(ApplicationContext.getAppContext())
+   private lateinit var personRecordDao: RecordDao
+    var  listBook:Flow<List<ReadBookEntity>> = emptyFlow()
+
+
+    //   private var bookRecordDao=BookDatabase.getBookdao(ApplicationContext.getAppContext())
    private var _state by mutableStateOf(mainScreenSatete())
- //  private var _listPerson = MutableStateFlow(emptyFlow<List<Person>>())
+ val state:mainScreenSatete
+     get() = _state
+    init {
+            try {
+                personRecordDao =BookDatabase.getDao(ApplicationContext.getAppContext())
+                   viewModelScope.launch {
+                       listBook =  personRecordDao.getallReadBooks()
+                   }
+
+            }
+            catch (ex:Exception){
+
+                _state = _state.copy(
+                    error = ex.toString()
+                )
+
+            }
+    }
 
 
-    private val _listBook = MutableStateFlow<List<ReadBook>>(emptyList())
-
-    val list:StateFlow<List<ReadBook>>  = _listBook.asStateFlow()
-
-
-
-
-  val _listPerson : Flow<List<String>> =personRecordDao.getAllPerson().map {
+  val _listPerson : Flow<List<String>> = personRecordDao.getAllPerson().map {
      it.map {
          it.toConvertPerson()
      }.map {
@@ -53,12 +67,6 @@ class mainScreenView:ViewModel() {
 
      }
  }
-
-    val state:mainScreenSatete
-        get() = _state
-
-
-
     fun onEvent(event: mainScreenEvent){
         when(event){
             is mainScreenEvent.personName ->{
@@ -72,12 +80,29 @@ class mainScreenView:ViewModel() {
                 )
             }
             is mainScreenEvent.personCommit->{
+
+                 try {
+                Log.d("PersonInsert",_state.personName+_state.personSurname)
                 viewModelScope.launch {
                  personRecordDao.insertPerson(PersonEntity(0,_state.personName,_state.personSurname))
                     _state=_state.copy(
-                        personCount = personRecordDao.getPersonCount()
+                        personCount = personRecordDao.getCount()
+                    )
+
+
+                    _state = _state.copy(
+                        personName = "",
+                        personSurname = ""
                     )
                 }
+
+                 }
+                 catch (ex:Exception){
+                     _state = _state.copy(
+                         error = ex.toString()
+                     )
+
+                 }
 
             }
             is mainScreenEvent.personId->{
@@ -98,13 +123,29 @@ class mainScreenView:ViewModel() {
                 )
             }
             is mainScreenEvent.addBook->{
+                try {
+
                 viewModelScope.launch {
-                bookRecordDao.InsertReadBook(ReadBookEntity(0,state.currentValue,_state.bookName,_state.bookWriter))
+                personRecordDao.InsertReadBook(ReadBookEntity(0,state.currentValue,_state.bookName,_state.bookWriter))
+
                     _state = _state.copy(
-                        personCount=bookRecordDao.getCount()
+                        bookName = "",
+                        bookWriter = "",
+                        currentValue = "",
+                        personCount = personRecordDao.getCount()
+
                     )
 
                 }
+
+                }
+                catch (ex:Exception)
+                {
+                    _state=_state.copy(
+                        error = ex.toString()
+                    )
+                }
+
             }
             is mainScreenEvent.expandedChange->{
                 _state = _state.copy(

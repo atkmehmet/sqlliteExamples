@@ -31,11 +31,11 @@ class MainActivity : ComponentActivity() {
 
        //     MyComposeScreen()
             //  MyComposeScreen()
-            val view:mainScreenView= viewModel()
+            val view:mainScreenView  = viewModel()
            // val viewNew:MyViewModel= viewModel ()
             //       mainScreen(view)
 
-         MyDropdownMenuScreen(view, view.list.collectAsState().value)
+         MyDropdownMenuScreen(view)
           //  dropMenu(view,view.state,view::onEvent,view.lisPerson.collectAsState().value.collectAsState(initial = emptyList()).value)
         }
     }
