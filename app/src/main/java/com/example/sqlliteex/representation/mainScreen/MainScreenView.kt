@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -47,6 +48,7 @@ class mainScreenView:ViewModel() {
                    viewModelScope.launch {
                        listBook =  personRecordDao.getallReadBooks()
                    }
+
 
             }
             catch (ex:Exception){

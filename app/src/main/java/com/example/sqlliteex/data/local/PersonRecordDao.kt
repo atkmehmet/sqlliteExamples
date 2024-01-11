@@ -24,7 +24,7 @@ suspend fun insertPerson(personEntity: PersonEntity)
  @Query("SELECT * FROM ReadBook ")
 suspend fun getReadBooks():List<ReadBookEntity>
 
- @Query("SELECT * FROM ReadBook ")
+ @Query("SELECT * FROM ReadBook order by Id desc ")
  fun getallReadBooks():Flow<List<ReadBookEntity>>
 
  @Query("select count (*) from ReadBook ")
